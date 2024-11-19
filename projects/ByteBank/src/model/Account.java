@@ -16,16 +16,38 @@ public class Account {
         this.active = true;
     }
 
-    public void depositar() {
+    public void depositar(double valor) {
+        if(valor > 0) {
+            this.saldo += valor;
+            System.out.println("Valor depositado com sucesso!");
+            System.out.println("Saldo atual: " + this.saldo);
+        }
+        else {
+            System.out.println("Valor inferior a R$0,00. \nPara deposito o valor deve ser maior que R$0,00");
+        }
 
     }
 
-    public void sacar() {
-
+    public void sacar(double valor) {
+        if (valor > this.saldo || valor < 0) {
+            System.out.println("Impossivel realizar o saque.");
+        }
+        else {
+            this.saldo -= valor;
+            System.out.println("Saque efetuado com sucesso!");
+            System.out.println("Saldo atual: " + this.saldo);
+        }
     }
 
-    public void transferir() {
-
+    public void transferir(Account destino, double valor) {
+        if (this.saldo > valor) {
+            this.saldo -= valor;
+            System.out.println("Transação realizada!");
+            destino.depositar(valor);
+        }
+        else {
+            System.out.println("Não é possivel realizar a transferência. Valor inferior a R$0,00.");
+        }
     }
 
     public long getNumeroDaConta() {
@@ -54,5 +76,16 @@ public class Account {
 
     public void toggleActive() {
         active = !active;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "numeroDaConta=" + numeroDaConta +
+                ", cpf='" + cpf + '\'' +
+                ", nome='" + nome + '\'' +
+                ", saldo=" + saldo +
+                ", active=" + active +
+                '}';
     }
 }
