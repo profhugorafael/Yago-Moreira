@@ -1,12 +1,22 @@
 import model.Account;
+import model.Address;
 
 public class Main {
     public static void main(String[] args) {
-        Account conta1 = new Account(112233, "99988877766", "Yago");
-        Account conta2 = new Account(119988, "22233344455", "Bob");
+        Account conta1 = new Account(
+                112233,
+                "99988877766",
+                "Yago",
+                new Address("Rua R", "Cidade C", "11122233", "12"));
 
-        System.out.println(conta1.toString());
-        System.out.println(conta2.toString());
+        Account conta2 = new Account(
+                119988,
+                "22233344455",
+                "Bob",
+                new Address("Rua R", "Cidade C", "11122233", "12"));
+
+        System.out.println(conta1);
+        System.out.println(conta2);
 
         System.out.println();
         conta1.depositar(1000.00);
