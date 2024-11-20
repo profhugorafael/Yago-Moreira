@@ -8,46 +8,58 @@ public class Account {
     private double saldo;
     private boolean active;
 
-    public Account(long numeroDaConta, String cpf, String nome) {
+    private Address endereco;
+
+    public Account(long numeroDaConta, String cpf, String nome, Address endereco) {
         this.numeroDaConta = numeroDaConta;
         this.cpf = cpf;
         this.nome = nome;
+        this.endereco = endereco;
         this.saldo = 0;
         this.active = true;
     }
 
     public void depositar(double valor) {
-        if(valor > 0) {
-            this.saldo += valor;
-            System.out.println("Valor depositado com sucesso!");
-            System.out.println("Saldo atual: " + this.saldo);
-        }
-        else {
+        if (valor <= 0) {
             System.out.println("Valor inferior a R$0,00. \nPara deposito o valor deve ser maior que R$0,00");
+            return;
         }
 
+        if (!active) {
+            System.out.println("Conta inativa!");
+            return;
+        }
+
+        this.saldo += valor;
+        System.out.println("Valor depositado com sucesso!");
+        System.out.println("Saldo atual: " + this.saldo);
     }
 
     public void sacar(double valor) {
         if (valor > this.saldo || valor < 0) {
             System.out.println("Impossivel realizar o saque.");
+            return;
         }
-        else {
-            this.saldo -= valor;
-            System.out.println("Saque efetuado com sucesso!");
-            System.out.println("Saldo atual: " + this.saldo);
+
+        if (!active) {
+            System.out.println("Conta inativa!");
+            return;
         }
+
+        this.saldo -= valor;
+        System.out.println("Saque efetuado com sucesso!");
+        System.out.println("Saldo atual: " + this.saldo);
     }
 
     public void transferir(Account destino, double valor) {
-        if (this.saldo > valor) {
-            this.saldo -= valor;
-            System.out.println("Transação realizada!");
-            destino.depositar(valor);
-        }
-        else {
+        if (this.saldo < valor || valor < 0) {
             System.out.println("Não é possivel realizar a transferência. Valor inferior a R$0,00.");
+            return;
         }
+
+        this.saldo -= valor;
+        System.out.println("Transação realizada!");
+        destino.depositar(valor);
     }
 
     public long getNumeroDaConta() {
@@ -72,6 +84,14 @@ public class Account {
 
     public boolean isActive() {
         return active;
+    }
+
+    public Address getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Address endereco) {
+        this.endereco = endereco;
     }
 
     public void toggleActive() {
