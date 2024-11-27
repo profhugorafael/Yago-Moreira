@@ -1,5 +1,10 @@
 package model;
 
+import enums.TransactionType;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Account {
 
     private long numeroDaConta;
@@ -10,6 +15,8 @@ public class Account {
 
     private Address endereco;
 
+    private List<Transaction> transacoes;
+
     public Account(long numeroDaConta, String cpf, String nome, Address endereco) {
         this.numeroDaConta = numeroDaConta;
         this.cpf = cpf;
@@ -17,6 +24,7 @@ public class Account {
         this.endereco = endereco;
         this.saldo = 0;
         this.active = true;
+        this.transacoes = new ArrayList<>();
     }
 
     public void depositar(double valor) {
@@ -31,6 +39,8 @@ public class Account {
         }
 
         this.saldo += valor;
+        transacoes.add(new Transaction(this, TransactionType.DEPOSITO, valor));
+
         System.out.println("Valor depositado com sucesso!");
         System.out.println("Saldo atual: " + this.saldo);
     }
@@ -47,6 +57,8 @@ public class Account {
         }
 
         this.saldo -= valor;
+        transacoes.add(new Transaction(this, TransactionType.SAQUE, valor));
+
         System.out.println("Saque efetuado com sucesso!");
         System.out.println("Saldo atual: " + this.saldo);
     }
@@ -58,8 +70,12 @@ public class Account {
         }
 
         this.saldo -= valor;
+        destino.saldo += valor;
+
+        this.transacoes.add(new Transaction(destino, TransactionType.TRANSFERENCIA_ENVIADA, valor));
+        destino.transacoes.add(new Transaction(destino, TransactionType.TRANSFERENCIA_RECEBIDA, valor));
+
         System.out.println("Transação realizada!");
-        destino.depositar(valor);
     }
 
     public long getNumeroDaConta() {
@@ -100,12 +116,15 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" +
-                "numeroDaConta=" + numeroDaConta +
-                ", cpf='" + cpf + '\'' +
-                ", nome='" + nome + '\'' +
-                ", saldo=" + saldo +
-                ", active=" + active +
-                '}';
+        String aux = "";
+        aux += "NroConta: " + numeroDaConta + ", CPF: " + cpf + ", Nome: " + nome + "\n";
+        aux += "Saldo: R$" + String.format("%.2f", saldo) + "\n";
+        aux += "Transacoes: ";
+
+        for(Transaction transacao : transacoes) {
+            aux += "\t" + transacao + "\n";
+        }
+
+        return aux;
     }
 }

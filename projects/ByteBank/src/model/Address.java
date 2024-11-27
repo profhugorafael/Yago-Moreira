@@ -6,9 +6,6 @@ public class Address {
     private String cep;
     private String numero;
 
-    public Address() {
-    }
-
     public Address(String rua, String cidade, String cep, String numero) {
         this.rua = rua;
         this.cidade = cidade;
