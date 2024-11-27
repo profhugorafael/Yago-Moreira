@@ -32,5 +32,9 @@ public class Main {
         conta1.transferir(conta2, 450.00);
         conta2.transferir(conta1, 150.00);
 
+        System.out.println(conta1);
+        System.out.println("--------------");
+        System.out.println(conta2);
+
     }
 }
