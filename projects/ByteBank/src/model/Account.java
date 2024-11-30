@@ -17,14 +17,8 @@ public class Account {
     }
 
     public void depositar(double valor) {
-        if(valor > 0) {
-            this.saldo += valor;
-            System.out.println("Valor depositado com sucesso!");
-            System.out.println("Saldo atual: " + this.saldo);
-        }
-        else {
-            System.out.println("Valor inferior a R$0,00. \nPara deposito o valor deve ser maior que R$0,00");
-        }
+        saldo += valor;
+        sout
 
     }
 
